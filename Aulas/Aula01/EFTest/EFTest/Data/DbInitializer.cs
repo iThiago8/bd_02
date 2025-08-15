@@ -1,36 +1,35 @@
 ﻿using EFTest.Models;
-using System.Diagnostics;
+using Microsoft.EntityFrameworkCore;
 
 namespace EFTest.Data
 {
     public static class DbInitializer
     {
-        public static void Initialize(SchoolContext context)
+        public async static void Initialize(SchoolContext context)
         {
-            context.Database.EnsureCreated();
-
-            // Look for any students.
-            if (context.Students.Any())
-                return;   // DB has been seeded
+            await context.Database.EnsureCreatedAsync();
+            
+            if (await context.Students.AnyAsync())
+                return;
 
             var students = new Student[]
             {
-            new(){FirstMidName="Carson",LastName="Alexander",EnrollmentDate=DateTime.Parse("2005-09-01")},
-            new(){FirstMidName="Meredith",LastName="Alonso",EnrollmentDate=DateTime.Parse("2002-09-01")},
-            new(){FirstMidName="Arturo",LastName="Anand",EnrollmentDate=DateTime.Parse("2003-09-01")},
-            new(){FirstMidName="Gytis",LastName="Barzdukas",EnrollmentDate=DateTime.Parse("2002-09-01")},
-            new(){FirstMidName="Yan",LastName="Li",EnrollmentDate=DateTime.Parse("2002-09-01")},
-            new(){FirstMidName="Peggy",LastName="Justice",EnrollmentDate=DateTime.Parse("2001-09-01")},
-            new(){FirstMidName="Laura",LastName="Norman",EnrollmentDate=DateTime.Parse("2003-09-01")},
-            new(){FirstMidName="Nino",LastName="Olivetto",EnrollmentDate=DateTime.Parse("2005-09-01")}
+                new(){FirstMidName="Carson",LastName="Alexander",EnrollmentDate=DateTime.Parse("2005-09-01")},
+                new(){FirstMidName="Meredith",LastName="Alonso",EnrollmentDate=DateTime.Parse("2002-09-01")},
+                new(){FirstMidName="Arturo",LastName="Anand",EnrollmentDate=DateTime.Parse("2003-09-01")},
+                new(){FirstMidName="Gytis",LastName="Barzdukas",EnrollmentDate=DateTime.Parse("2002-09-01")},
+                new(){FirstMidName="Yan",LastName="Li",EnrollmentDate=DateTime.Parse("2002-09-01")},
+                new(){FirstMidName="Peggy",LastName="Justice",EnrollmentDate=DateTime.Parse("2001-09-01")},
+                new(){FirstMidName="Laura",LastName="Norman",EnrollmentDate=DateTime.Parse("2003-09-01")},
+                new(){FirstMidName="Nino",LastName="Olivetto",EnrollmentDate=DateTime.Parse("2005-09-01")}
             };
+
             foreach (Student s in students)
             {
-                context.Students.Add(s);
+                await context.Students.AddAsync(s);
             }
             context.SaveChanges();
-
-            }
+        }
     }
 
 }
