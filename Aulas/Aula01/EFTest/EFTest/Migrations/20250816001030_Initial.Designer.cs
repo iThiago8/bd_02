@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EFTest.Migrations
 {
     [DbContext(typeof(SchoolContext))]
-    [Migration("20250815233240_Initial")]
+    [Migration("20250816001030_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
