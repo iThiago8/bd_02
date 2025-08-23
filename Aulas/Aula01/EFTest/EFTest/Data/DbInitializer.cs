@@ -5,11 +5,11 @@ namespace EFTest.Data
 {
     public static class DbInitializer
     {
-        public async static void Initialize(SchoolContext context)
+        public static void Initialize(SchoolContext context)
         {
-            await context.Database.EnsureCreatedAsync();
+            context.Database.EnsureCreated();
             
-            if (await context.Students.AnyAsync())
+            if (context.Students.Any())
                 return;
 
             var students = new Student[]
@@ -26,7 +26,7 @@ namespace EFTest.Data
 
             foreach (Student s in students)
             {
-                await context.Students.AddAsync(s);
+                context.Students.Add(s);
             }
             context.SaveChanges();
         }

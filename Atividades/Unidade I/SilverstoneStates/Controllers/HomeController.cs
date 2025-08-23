@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using SilverstoneStates.Data;
 using SilverstoneStates.Models;
 
 namespace SilverstoneStates.Controllers
@@ -7,15 +8,20 @@ namespace SilverstoneStates.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly ApplicationDbContext _context;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(
+            ILogger<HomeController> logger,
+            ApplicationDbContext context
+        )
         {
             _logger = logger;
+            _context = context;
         }
 
         public IActionResult Index()
         {
-            return View();
+            return View(_context.Realties.ToList());
         }
 
         public IActionResult Privacy()

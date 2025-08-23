@@ -1,8 +1,35 @@
-﻿@{
+﻿@model ICollection<SilverstoneStates.Models.Realty>
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
+    <h1 class="display-4">Existem @Model.Count prédios</h1>
     <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+
+    <table class="table table-responsive table-hover table-striped">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nome</th>
+                <th>Descrição</th>
+                <th>Número de quartos</th>
+                <th>Valor de mercado</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var s in Model)
+            {
+                <tr>
+                    <td>@s.Id</td>
+                    <td>@s.Name</td>
+                    <td>@s.Description</td>
+                    <td>@s.NumberOfRooms</td>
+                    <td>@s.Market_Value</td>
+                </tr>
+            }
+        </tbody>
+    </table>
 </div>
