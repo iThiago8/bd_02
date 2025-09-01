@@ -1,4 +1,5 @@
 ﻿using EFTest.Interfaces;
+using EFTest.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EFTest.Controllers
@@ -22,6 +23,24 @@ namespace EFTest.Controllers
         public async Task<IActionResult> Index()
         {
             return View(await _courseRepository.GetAll());
+        }
+
+        [HttpGet]
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(Course course)
+        {
+            if (ModelState.IsValid)
+            {
+                await _courseRepository.Create(course);
+                return RedirectToAction("Index");
+            }
+
+            return View(course);
         }
     }
 }

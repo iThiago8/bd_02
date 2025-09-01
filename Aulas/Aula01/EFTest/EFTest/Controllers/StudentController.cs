@@ -22,6 +22,12 @@ namespace EFTest.Controllers
             _studentRepository = studentRepository;
         }
 
+        [HttpGet]
+        public IActionResult Create()
+        {
+            return View();
+        }
+
         [HttpPost]
         public async Task<IActionResult> Create(Student student)
         {
@@ -41,11 +47,6 @@ namespace EFTest.Controllers
             return View(await _studentRepository.GetAll());
         }
 
-        [HttpGet]
-        public IActionResult Create()
-        {
-            return View();
-        }
 
         [HttpGet]
         public async Task<IActionResult> Update(int id)

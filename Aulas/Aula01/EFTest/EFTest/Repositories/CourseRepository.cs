@@ -13,9 +13,10 @@ namespace EFTest.Repositories
             _context = context;
         }
 
-        public Task Create(Course course)
+        public async Task Create(Course course)
         {
-            throw new NotImplementedException();
+            await _context.Courses.AddAsync(course);
+            await _context.SaveChangesAsync();
         }
 
         public Task Delete(Course course)
