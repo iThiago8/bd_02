@@ -8,7 +8,7 @@ namespace EFTest.Interfaces
         public Task Update(Course course);
         public Task Delete(Course course);
         public Task<List<Course>> GetAll();
-        public Task<Course> GetById(int id);
+        public Task<Course?> GetById(int id);
         public Task<List<Course>> GetByName(string name);
     }
 }

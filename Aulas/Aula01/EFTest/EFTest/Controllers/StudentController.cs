@@ -54,8 +54,8 @@ namespace EFTest.Controllers
             var student = await _studentRepository.GetById(id);
             if (student == null)
                 return NotFound();
-
-            return View(student);
+            else
+                return View(student);
         }
 
         [HttpPost]

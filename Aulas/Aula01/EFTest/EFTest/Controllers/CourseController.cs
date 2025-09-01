@@ -1,6 +1,7 @@
 ﻿using EFTest.Interfaces;
 using EFTest.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace EFTest.Controllers
 {
@@ -42,5 +43,39 @@ namespace EFTest.Controllers
 
             return View(course);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Update(int id)
+        {
+            var course = await _courseRepository.GetById(id);
+            if (course == null)
+                return NotFound();
+            else
+                return View(course);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Update(Course course)
+        {
+            if (ModelState.IsValid)
+            {
+                await _courseRepository.Update(course);
+                return RedirectToAction("Index");
+            }
+
+            return View(course);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var course = await _courseRepository.GetById(id);
+            if (course == null)
+                return NotFound();
+         
+            await _courseRepository.Delete(course);
+            return RedirectToAction("Index");
+        }
+
     }
 }

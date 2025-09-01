@@ -19,9 +19,11 @@ namespace EFTest.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public Task Delete(Course course)
+        public async Task Delete(Course course)
         {
-            throw new NotImplementedException();
+            _context.Courses.Remove(course);
+            await _context.SaveChangesAsync();
+
         }
 
         public async Task<List<Course>> GetAll()
@@ -29,9 +31,9 @@ namespace EFTest.Repositories
             return await _context.Courses.ToListAsync();
         }
 
-        public Task<Course> GetById(int id)
+        public async Task<Course?> GetById(int id)
         {
-            throw new NotImplementedException();
+            return await _context.Courses.FindAsync(id);
         }
 
         public Task<List<Course>> GetByName(string name)
@@ -39,9 +41,11 @@ namespace EFTest.Repositories
             throw new NotImplementedException();
         }
 
-        public Task Update(Course course)
+        public async Task Update(Course course)
         {
-            throw new NotImplementedException();
+            _context.Courses.Update(course);
+            await _context.SaveChangesAsync();
+
         }
     }
 }
