@@ -1,0 +1,50 @@
+﻿@model ICollection<EFTest.Models.Student>
+
+
+<div class="text-center">
+    <h1 class="display-4">
+        Total de estudantes: @Model.Count
+    </h1>
+
+    <a asp-controller="Student" asp-action="Create">Novo</a>
+    <table class="table table-responsive table-hover table-striped">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nome</th>
+                <th>Sobrenome</th>
+                <th>Data da matrícula</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var s in Model)
+            {
+                <tr>
+                    <td>@s.Id</td>
+                    <td>@s.FirstMidName</td>
+                    <td>@s.LastName</td>
+                    <td>@s.EnrollmentDate.ToShortDateString()</td>
+                    <td>
+                        <a asp-controller="Student" asp-action="Update"
+                           asp-route-id="@s.Id">
+                            ✏️
+                        </a>
+                    </td>
+                    <td>
+                        <form asp-controller="Student" asp-action="Delete"
+                              method="post">
+                            <input type="hidden" name="id" value="@s.Id" />
+                            <button type="submit"
+                                    class="btn btn-danger btn-sm">
+                                🗑️
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

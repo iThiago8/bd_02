@@ -1,20 +1,17 @@
-﻿@model ICollection<EFTest.Models.Student>
+﻿@model ICollection<EFTest.Models.Course>
 
 
 <div class="text-center">
     <h1 class="display-4">
-        Welcome
-        @Model.Count estudantes.
+        Total de cursos: @Model.Count
     </h1>
 
-    <a asp-controller="Student" asp-action="Create">Novo</a>
+    <a asp-controller="Course" asp-action="Create">Novo</a>
     <table class="table table-responsive table-hover table-striped">
         <thead>
             <tr>
                 <th>Id</th>
                 <th>Nome</th>
-                <th>Sobrenome</th>
-                <th>Data da matrícula</th>
                 <th></th>
                 <th></th>
             </tr>
@@ -25,17 +22,15 @@
             {
                 <tr>
                     <td>@s.Id</td>
-                    <td>@s.FirstMidName</td>
-                    <td>@s.LastName</td>
-                    <td>@s.EnrollmentDate.ToShortDateString()</td>
+                    <td>@s.Name</td>
                     <td>
-                        <a asp-controller="Student" asp-action="Update"
+                        <a asp-controller="Course" asp-action="Update"
                            asp-route-id="@s.Id">
                             ✏️
                         </a>
                     </td>
                     <td>
-                        <form asp-controller="Student" asp-action="Delete"
+                        <form asp-controller="Course" asp-action="Delete"
                               method="post">
                             <input type="hidden" name="id" value="@s.Id" />
                             <button type="submit"

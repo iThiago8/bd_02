@@ -22,12 +22,6 @@ namespace EFTest.Controllers
             _studentRepository = studentRepository;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> StudentTable()
-        {
-            return View(await _studentRepository.GetAll());
-        }
-
         public IActionResult Index()
         {
             return View();

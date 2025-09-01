@@ -28,7 +28,7 @@ namespace EFTest.Controllers
             if (ModelState.IsValid)
             {
                 await _studentRepository.Create(student);
-                return RedirectToAction("StudentTable");
+                return RedirectToAction("Index");
             }
 
             return View(student);
@@ -36,7 +36,7 @@ namespace EFTest.Controllers
 
 
         [HttpGet]
-        public async Task<IActionResult> StudentTable()
+        public async Task<IActionResult> Index()
         {
             return View(await _studentRepository.GetAll());
         }
