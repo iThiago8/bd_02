@@ -18,15 +18,10 @@ namespace EFTest.Repositories
             await context.SaveChangesAsync();
         }
 
-        public async Task Delete(int studentId, int courseId)
+        public async Task Delete(StudentCourse studentCourse)
         {
-            var studentCourse = await context.StudentCourse.FirstOrDefaultAsync(sc => sc.StudentId == studentId && sc.CourseId == courseId);
-
-            if (studentCourse != null)
-            {
-                context.StudentCourse.Remove(studentCourse);
-                await context.SaveChangesAsync();
-            }
+            context.StudentCourse.Remove(studentCourse);
+            await context.SaveChangesAsync();
         }
 
         public async Task<StudentCourse?> Get(int studentId, int courseId)
@@ -44,6 +39,7 @@ namespace EFTest.Repositories
                 context.StudentCourse
                 .Include(s => s.Student)
                 .Include(c => c.Course)
+                .OrderBy(sc => sc.EnrollmentDate)
                 .ToListAsync();
         }
         public async Task<List<StudentCourse>?> GetByCourseId(int courseId)

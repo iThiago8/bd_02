@@ -7,7 +7,7 @@ namespace EFTest.Interfaces
     {
         public Task Create(StudentCourse studentCourse);
         public Task Update(StudentCourse studentCourse);
-        public Task Delete(int studentId, int courseId);
+        public Task Delete(StudentCourse studentCourse);
 
         public Task<List<StudentCourse>?> GetByStudentId(int studentId);
         public Task<List<StudentCourse>?> GetByCourseId(int courseId);

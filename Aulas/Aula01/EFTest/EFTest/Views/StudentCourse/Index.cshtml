@@ -1,0 +1,52 @@
+﻿@model ICollection<EFTest.Models.StudentCourse>
+
+
+<div class="text-center">
+    <h1 class="display-4">
+        Total de matrículas: @Model.Count
+    </h1>
+
+    <a asp-controller="StudentCourse" asp-action="Create">Novo</a>
+    <table class="table table-responsive table-hover table-striped">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Sobrenome</th>
+                <th>Curso</th>
+                <th>Data da matrícula</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var sc in Model)
+            {
+                <tr>
+                    <td>@sc.Student.FirstMidName</td>
+                    <td>@sc.Student.LastName</td>
+                    <td>@sc.Course.Name</td>
+                    <td>@sc.EnrollmentDate</td>
+                    <td>
+                        <a asp-controller="StudentCourse" asp-action="Update"
+                           asp-route-studentId="@sc.StudentId"
+                           asp-route-courseId="@sc.CourseId">
+                            ✏️
+                        </a>
+                    </td>
+                    <td>
+                        <form asp-controller="StudentCourse" asp-action="Delete"
+                              asp-route-studentId="@sc.StudentId"
+                              asp-route-courseId="@sc.CourseId"
+                              method="post">
+                            <button type="submit"
+                                    class="btn btn-danger btn-sm">
+                                🗑️
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

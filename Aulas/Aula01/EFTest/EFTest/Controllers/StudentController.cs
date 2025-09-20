@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EFTest.Controllers
 {
-    public class StudentController(IStudentRepository studentRepository, ILogger logger) : Controller
+    public class StudentController(IStudentRepository studentRepository) : Controller
     {
         [HttpGet]
         public IActionResult Create()

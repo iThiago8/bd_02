@@ -47,7 +47,7 @@ namespace EFTest.Data
                 {
                     new(){StudentId = 1, CourseId = 2},
                     new(){StudentId = 2, CourseId = 2},
-                    new(){StudentId = 3, CourseId = 4}
+                    new(){StudentId = 3, CourseId = 3}
                 };
 
                 context.StudentCourse.AddRange(studentsCourses);

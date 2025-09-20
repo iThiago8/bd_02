@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace EFTest.Controllers
 {
-    public class CourseController(ICourseRepository courseRepository, ILogger logger) : Controller
+    public class CourseController(ICourseRepository courseRepository) : Controller
     {
         [HttpGet]
         public async Task<IActionResult> Index()

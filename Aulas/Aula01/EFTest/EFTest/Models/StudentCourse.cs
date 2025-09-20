@@ -18,7 +18,7 @@ namespace EFTest.Models
         [ForeignKey(nameof(CourseId))]
         public Course? Course { get; set; }
 
-        public DateTime EnrollmentDate { get; set; }
+        public DateTime EnrollmentDate { get; set; } = DateTime.Now;
         public DateTime? WithdrawDate { get; set; }
     }
 }
