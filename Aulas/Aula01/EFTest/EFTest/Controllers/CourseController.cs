@@ -5,25 +5,12 @@ using System.Threading.Tasks;
 
 namespace EFTest.Controllers
 {
-    public class CourseController : Controller
+    public class CourseController(ICourseRepository courseRepository, ILogger logger) : Controller
     {
-        private readonly ICourseRepository _courseRepository;
-        private readonly ILogger<CourseController> _logger;
-
-        public CourseController(
-            ICourseRepository courseRepository, 
-            ILogger<CourseController> logger
-        )
-        {
-            _courseRepository = courseRepository;
-            _logger = logger;
-        }
-
-
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            return View(await _courseRepository.GetAll());
+            return View(await courseRepository.GetAll());
         }
 
         [HttpGet]
@@ -37,7 +24,7 @@ namespace EFTest.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _courseRepository.Create(course);
+                await courseRepository.Create(course);
                 return RedirectToAction("Index");
             }
 
@@ -47,7 +34,7 @@ namespace EFTest.Controllers
         [HttpGet]
         public async Task<IActionResult> Update(int id)
         {
-            var course = await _courseRepository.GetById(id);
+            var course = await courseRepository.GetById(id);
             if (course == null)
                 return NotFound();
             else
@@ -59,7 +46,7 @@ namespace EFTest.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _courseRepository.Update(course);
+                await courseRepository.Update(course);
                 return RedirectToAction("Index");
             }
 
@@ -69,11 +56,11 @@ namespace EFTest.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(int id)
         {
-            var course = await _courseRepository.GetById(id);
+            var course = await courseRepository.GetById(id);
             if (course == null)
                 return NotFound();
          
-            await _courseRepository.Delete(course);
+            await courseRepository.Delete(course);
             return RedirectToAction("Index");
         }
 

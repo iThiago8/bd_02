@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace EFTest.Models
 {
     [PrimaryKey(nameof(StudentId), nameof(CourseId))]
-    public class StudentCourses
+    public class StudentCourse
     {
         public int StudentId { get; set; }
 
@@ -17,5 +17,8 @@ namespace EFTest.Models
 
         [ForeignKey(nameof(CourseId))]
         public Course? Course { get; set; }
+
+        public DateTime EnrollmentDate { get; set; }
+        public DateTime? WithdrawDate { get; set; }
     }
 }

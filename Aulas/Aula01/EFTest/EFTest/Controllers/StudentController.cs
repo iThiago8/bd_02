@@ -7,21 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EFTest.Controllers
 {
-    public class StudentController : Controller
+    public class StudentController(IStudentRepository studentRepository, ILogger logger) : Controller
     {
-        private readonly ILogger<StudentController> _logger;
-        private readonly IStudentRepository _studentRepository;
-
-        public StudentController(
-            ILogger<StudentController> logger,
-            IStudentRepository studentRepository
-
-        )
-        {
-            _logger = logger;
-            _studentRepository = studentRepository;
-        }
-
         [HttpGet]
         public IActionResult Create()
         {
@@ -33,7 +20,7 @@ namespace EFTest.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _studentRepository.Create(student);
+                await studentRepository.Create(student);
                 return RedirectToAction("Index");
             }
 
@@ -44,14 +31,14 @@ namespace EFTest.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            return View(await _studentRepository.GetAll());
+            return View(await studentRepository.GetAll());
         }
 
 
         [HttpGet]
         public async Task<IActionResult> Update(int id)
         {
-            var student = await _studentRepository.GetById(id);
+            var student = await studentRepository.GetById(id);
             if (student == null)
                 return NotFound();
             else
@@ -59,11 +46,17 @@ namespace EFTest.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Update(Student student)
+        public async Task<IActionResult> Update(int? id, Student student)
         {
+            if (!id.HasValue)
+                return BadRequest();
+
+            if (id.Value != student.Id)
+                return BadRequest();
+
             if (ModelState.IsValid)
             {
-                await _studentRepository.Update(student);
+                await studentRepository.Update(student);
                 return RedirectToAction("Index");
             }
 
@@ -74,11 +67,11 @@ namespace EFTest.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(int id)
         {
-            var student = await _studentRepository.GetById(id);
+            var student = await studentRepository.GetById(id);
             if (student == null)
                 return NotFound();
 
-            await _studentRepository.Delete(student);
+            await studentRepository.Delete(student);
             return RedirectToAction("Index");
         }
 

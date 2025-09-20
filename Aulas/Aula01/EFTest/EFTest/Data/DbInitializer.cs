@@ -40,6 +40,19 @@ namespace EFTest.Data
                 context.Courses.AddRange(courses);
                 context.SaveChanges();
             }
+
+            if (!context.StudentCourse.Any())
+            {
+                var studentsCourses = new StudentCourse[]
+                {
+                    new(){StudentId = 1, CourseId = 2},
+                    new(){StudentId = 2, CourseId = 2},
+                    new(){StudentId = 3, CourseId = 4}
+                };
+
+                context.StudentCourse.AddRange(studentsCourses);
+                context.SaveChanges();
+            }
         }
     }
 
