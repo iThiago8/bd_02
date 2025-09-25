@@ -29,15 +29,13 @@
                     <td>@sc.EnrollmentDate</td>
                     <td>
                         <a asp-controller="StudentCourse" asp-action="Update"
-                           asp-route-studentId="@sc.StudentId"
-                           asp-route-courseId="@sc.CourseId">
+                           asp-route-id="@sc.Id">
                             ✏️
                         </a>
                     </td>
                     <td>
                         <form asp-controller="StudentCourse" asp-action="Delete"
-                              asp-route-studentId="@sc.StudentId"
-                              asp-route-courseId="@sc.CourseId"
+                              asp-route-id="@sc.Id"
                               method="post">
                             <button type="submit"
                                     class="btn btn-danger btn-sm">

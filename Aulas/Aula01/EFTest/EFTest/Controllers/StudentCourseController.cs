@@ -43,9 +43,9 @@ namespace EFTest.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Update(int studentId, int courseId)
+        public async Task<IActionResult> Update(int id)
         {
-            var studentCourse = await studentCourseRepository.Get(studentId, courseId);
+            var studentCourse = await studentCourseRepository.Get(id);
 
             if (studentCourse == null)
                 return NotFound();
@@ -54,8 +54,8 @@ namespace EFTest.Controllers
 
             var courses = await courseRepository.GetAll();
 
-            ViewBag.StudentId = new SelectList(students, "Id", "FirstMidName", studentId);
-            ViewBag.CourseId = new SelectList(courses, "Id", "Name", courseId);
+            ViewBag.StudentId = new SelectList(students, "Id", "FirstMidName", studentCourse.StudentId);
+            ViewBag.CourseId = new SelectList(courses, "Id", "Name", studentCourse.CourseId);
                 return View(studentCourse);
         }
 
@@ -71,9 +71,9 @@ namespace EFTest.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Delete (int studentId, int courseId)
+        public async Task<IActionResult> Delete (int studentCourseId)
         {
-            var studentCourse = await studentCourseRepository.Get(studentId, courseId);
+            var studentCourse = await studentCourseRepository.Get(studentCourseId);
 
             if (studentCourse == null)
                 return NotFound();

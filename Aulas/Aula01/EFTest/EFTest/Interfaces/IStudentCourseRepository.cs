@@ -11,7 +11,8 @@ namespace EFTest.Interfaces
 
         public Task<List<StudentCourse>?> GetByStudentId(int studentId);
         public Task<List<StudentCourse>?> GetByCourseId(int courseId);
-        public Task<StudentCourse?> Get(int studentId, int courseId);
+        public Task<StudentCourse?> Get(int studentCourseId);
+        public Task<List<StudentCourse>?> GetBydStudentIdCourseId(int studentId, int courseId);
         public Task<List<StudentCourse>> GetAll();
         public Task<List<StudentCourse>> GetByCourseName(string name);
         public Task<List<StudentCourse>> GetByStudentName(string name);
