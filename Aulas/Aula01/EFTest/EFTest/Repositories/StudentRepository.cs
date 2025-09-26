@@ -22,7 +22,11 @@ namespace EFTest.Repositories
 
         public async Task<List<Student>> GetAll()
         {
-            return await context.Students.ToListAsync();
+            return await 
+                context.Students
+                .Include(s => s.StudentCourses!)
+                    .ThenInclude(sc => sc.Course)
+                .ToListAsync();
         }
 
         public async Task<Student?> GetById(int id)

@@ -1,8 +1,8 @@
 ﻿using EFTest.Interfaces;
 using EFTest.Models;
+using EFTest.ViewModels.StudentCourses;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System.Threading.Tasks;
 
 namespace EFTest.Controllers
 {
@@ -15,20 +15,18 @@ namespace EFTest.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            return View(await studentCourseRepository.GetAll());
+            return View(await studentRepository.GetAll());
         }
 
         [HttpGet]
         public async Task<IActionResult> Create()
         {
-            var students = await studentRepository.GetAll();
+            var viewModel = new StudentCourseViewModel
+            {
+                Students = await studentRepository.GetAll()
+            };
 
-            var courses = await courseRepository.GetAll();
-
-            ViewBag.StudentId = new SelectList(students, "Id", "FirstMidName");
-            ViewBag.CourseId = new SelectList(courses, "Id", "Name");
-
-            return View();
+            return View(viewModel);
         }
 
         [HttpPost]

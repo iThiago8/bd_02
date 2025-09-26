@@ -9,6 +9,7 @@ namespace EFTest.Interfaces
         public Task Delete(Student student);
         public Task<Student?> GetById(int id);
         public Task<List<Student>> GetAll();
+        public Task<List<Student>> GetAllNotEnrolled();
         public Task<List<Student>> GetByName(string name);
     }
 }
