@@ -19,6 +19,11 @@ namespace EFTest.Repositories
             context.Students.Remove(student);
             await context.SaveChangesAsync();
         }
+        public async Task Update(Student student)
+        {
+            context.Students.Update(student);
+            await context.SaveChangesAsync();
+        }
 
         public async Task<List<Student>> GetAll()
         {
@@ -27,6 +32,22 @@ namespace EFTest.Repositories
                 .Include(s => s.StudentCourses!)
                     .ThenInclude(sc => sc.Course)
                 .ToListAsync();
+        }
+
+        public async Task<List<Student>> GetAllNotEnrolled()
+        {
+            var enrolledStudentIds =
+                context.StudentCourse
+                .Select(sc => sc.StudentId)
+                .Distinct();
+
+            return await 
+                context.Students
+                .Where(w => !enrolledStudentIds.Contains(w.Id))
+                .OrderBy(s => s.FirstMidName)
+                .ToListAsync();
+            
+
         }
 
         public async Task<Student?> GetById(int id)
@@ -54,10 +75,5 @@ namespace EFTest.Repositories
             return students;
         }
 
-        public async Task Update(Student student)
-        {
-            context.Students.Update(student);
-            await context.SaveChangesAsync();
-        }
     }
 }

@@ -23,19 +23,31 @@ namespace EFTest.Controllers
         {
             var viewModel = new StudentCourseViewModel
             {
-                Students = await studentRepository.GetAll()
+                Students = await studentRepository.GetAllNotEnrolled()
             };
+
+            viewModel.SetCourses(
+                await courseRepository.GetAll());
 
             return View(viewModel);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(StudentCourse studentCourse)
+        public async Task<IActionResult> Create(StudentCourseViewModel viewModel)
         {
             if (!ModelState.IsValid)
-                return View(studentCourse);
+                return View(viewModel);
 
-            await studentCourseRepository.Create(studentCourse);
+            foreach (var c in viewModel.SelectedCourses)
+            {
+                if (c.IsSelected)
+                    await studentCourseRepository.Create(new StudentCourse
+                    {
+                        StudentId = viewModel.StudentId,
+                        CourseId = c.Id,
+                        EnrollmentDate = DateTime.Now
+                    });
+            }
 
             return RedirectToAction("Index");
         }
