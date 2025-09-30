@@ -2,10 +2,9 @@
 
 namespace EFTest.ViewModels.StudentCourses
 {
-    public class StudentCourseViewModel
+    public class UpdateStudentCourseViewModel
     {
-        public int StudentId { get; set; }
-        public List<Student> Students { get; set; } = [];
+        public Student SelectedStudent { get; set; } = new();
         public List<SelectedCourses> SelectedCourses { get; set; } = [];
 
         public void SetCourses(List<Course> courses)
@@ -18,12 +17,5 @@ namespace EFTest.ViewModels.StudentCourses
                 }
             )];
         }
-    }
-
-    public class SelectedCourses
-    {
-        public int Id { get; set; }
-        public string Name { get; set; } = string.Empty;
-        public bool IsSelected { get; set; }
     }
 }

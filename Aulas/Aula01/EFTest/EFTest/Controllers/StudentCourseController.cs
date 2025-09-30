@@ -21,7 +21,7 @@ namespace EFTest.Controllers
         [HttpGet]
         public async Task<IActionResult> Create()
         {
-            var viewModel = new StudentCourseViewModel
+            var viewModel = new CreateStudentCourseViewModel
             {
                 Students = await studentRepository.GetAllNotEnrolled()
             };
@@ -33,7 +33,7 @@ namespace EFTest.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(StudentCourseViewModel viewModel)
+        public async Task<IActionResult> Create(CreateStudentCourseViewModel viewModel)
         {
             if (!ModelState.IsValid)
                 return View(viewModel);
@@ -53,42 +53,37 @@ namespace EFTest.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Update(int id)
+        public async Task<IActionResult> Update(int studentId)
         {
-            var studentCourse = await studentCourseRepository.Get(id);
+            var enrolledCourses = await studentCourseRepository.GetByStudentId(studentId);
 
-            if (studentCourse == null)
-                return NotFound();
+            var viewModel = new UpdateStudentCourseViewModel
+            {
+                SelectedStudent = await studentRepository.GetById(studentId)
+            };
 
-            var students = await studentRepository.GetAll();
+            viewModel.SetCourses(
+                await courseRepository.GetAll()
+            );
 
-            var courses = await courseRepository.GetAll();
+            foreach (var c in viewModel.SelectedCourses)
+            {
+                if (enrolledCourses!.Any(sc => sc.CourseId == c.Id))
+                    c.IsSelected = true;
+            }
 
-            ViewBag.StudentId = new SelectList(students, "Id", "FirstMidName", studentCourse.StudentId);
-            ViewBag.CourseId = new SelectList(courses, "Id", "Name", studentCourse.CourseId);
-                return View(studentCourse);
+            return View(viewModel);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Update(StudentCourse studentCourse)
+        public async Task<IActionResult> Update(UpdateStudentCourseViewModel viewModel)
         {
-            if (!ModelState.IsValid)
-                return View(studentCourse);
-
-            await studentCourseRepository.Update(studentCourse);
-
             return RedirectToAction("Index");
         }
 
         [HttpPost]
-        public async Task<IActionResult> Delete (int studentCourseId)
+        public async Task<IActionResult> Delete (int studentId)
         {
-            var studentCourse = await studentCourseRepository.Get(studentCourseId);
-
-            if (studentCourse == null)
-                return NotFound();
-
-            await studentCourseRepository.Delete(studentCourse);
             return RedirectToAction("Index");
         }
     }

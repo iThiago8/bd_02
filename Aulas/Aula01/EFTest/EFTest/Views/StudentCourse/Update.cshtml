@@ -1,21 +1,57 @@
-﻿<h3>Editar uma matrícula</h3>
+﻿@using EFTest.ViewModels.StudentCourses;
 
-<form asp-action="Update" method="post">
-    <div class="form-group mb-3">
-        <label for="StudentId" class="control-label">Student</label>
+@model UpdateStudentCourseViewModel
 
-        <select name="StudentId" asp-items="@(ViewBag.StudentId as SelectList)" class="form-control">
-            <option value="">-- Selecione um estudante --</option>
-        </select>
+<h1>Update</h1>
+
+<h4>Matrícula</h4>
+<hr />
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Update">
+            <div asp-validation-summary="ModelOnly"
+                 class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="SelectedStudent.FirstMidName"
+                       class="control-label"></label>
+                <input asp-for="SelectedStudent.FirstMidName"
+                       class="form-control" />
+                <span asp-validation-for="SelectedStudent.FirstMidName"
+                      class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="SelectedStudent.LastName"
+                       class="control-label"></label>
+                <input asp-for="SelectedStudent.LastName"
+                       class="form-control" />
+                <span asp-validation-for="SelectedStudent.LastName"
+                      class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                @for (int i = 0; i < Model.SelectedCourses.Count; i++)
+                {
+                    <div class="form-check">
+                        <input class="checkbox" type="checkbox"
+                               asp-for="SelectedCourses[i].IsSelected"
+                               class="form-check-input" />
+                        <input type="hidden"
+                               asp-for="SelectedCourses[i].Id" />
+                        <label asp-for="SelectedCourses[i].IsSelected"
+                               class="form-check-label">
+                            @Model.SelectedCourses[i].Name
+                        </label>
+                    </div>
+
+                }
+            </div>
+
+            <div>
+                <input type="submit" value="Salvar"
+                       class="btn btn-primary" />
+            </div>
+        </form>
     </div>
-
-    <div class="form-group mb-3">
-        <label for="CourseId" class="control-label">Course</label>
-
-        <select name="CourseId" asp-items="@(ViewBag.CourseId as SelectList)" class="form-control">
-            <option value="">-- Selecione um curso --</option>
-        </select>
-    </div>
-
-    <button type="submit" class="btn btn-primary">Criar matrícula</button>
-</form>
+</div>

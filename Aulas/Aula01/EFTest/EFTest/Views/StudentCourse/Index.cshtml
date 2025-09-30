@@ -22,31 +22,31 @@
         <tbody>
             @foreach (var s in Model)
             {
-                <tr>
-                    <td>@s.Id</td>
-                    <td>@s.FirstMidName</td>
-                    <td>@s.LastName</td>
-                    <td>@s.EnrollmentDate.ToShortDateString()</td>
-                                    <td>
-                    <form asp-controller="Home" asp-action="Delete" method="post">
-                        <input type="hidden" name="id" value="@s.Id" />
-                        <button type="submit" class="btn btn-danger btn-sm">Excluir</button>
-                    </form>
-                </td>
-                <td>
-                    <a asp-controller="Home" asp-action="Update" asp-route-id="@s.Id" class="btn btn-primary btn-sm">
-                        Editar
-                    </a>
-                </td>
-                </tr>
                 @if (s.StudentCourses!.Count > 0)
                 {
                     <tr>
-                        <td colspan="5">
+                        <td>@s.Id</td>
+                        <td>@s.FirstMidName</td>
+                        <td>@s.LastName</td>
+                        <td>@s.EnrollmentDate.ToShortDateString()</td>
+                        <td>
+                            <a asp-controller="StudentCourse" asp-action="Update" asp-route-studentId="@s.Id" class="btn btn-primary btn-sm">
+                                ✏️
+                            </a>
+                        </td>
+                        <td>
+                            <form asp-controller="StudentCourse" asp-action="Delete" method="post">
+                                <input type="hidden" name="id" value="@s.Id" />
+                                <button type="submit" class="btn btn-danger btn-sm">🗑️</button>
+                            </form>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="6">
                             <ul>
                                 @foreach(var sc in s.StudentCourses)
                                 {
-                                    <li> - @sc.Course?.Name</li>  
+                                    <li> @sc.Course?.Name</li>  
                                 }
                             </ul>
                         </td>
