@@ -22,36 +22,35 @@
         <tbody>
             @foreach (var s in Model)
             {
-                @if (s.StudentCourses!.Count > 0)
-                {
-                    <tr>
-                        <td>@s.Id</td>
-                        <td>@s.FirstMidName</td>
-                        <td>@s.LastName</td>
-                        <td>@s.EnrollmentDate.ToShortDateString()</td>
-                        <td>
-                            <a asp-controller="StudentCourse" asp-action="Update" asp-route-studentId="@s.Id" class="btn btn-primary btn-sm">
-                                ✏️
-                            </a>
-                        </td>
-                        <td>
-                            <form asp-controller="StudentCourse" asp-action="Delete" method="post">
-                                <input type="hidden" name="id" value="@s.Id" />
-                                <button type="submit" class="btn btn-danger btn-sm">🗑️</button>
-                            </form>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="6">
-                            <ul>
-                                @foreach(var sc in s.StudentCourses)
+                <tr>
+                    <td>@s.Id</td>
+                    <td>@s.FirstMidName</td>
+                    <td>@s.LastName</td>
+                    <td>@s.EnrollmentDate.ToShortDateString()</td>
+                    <td>
+                        <a asp-controller="StudentCourse" asp-action="Update" asp-route-studentId="@s.Id" class="btn btn-primary btn-sm">
+                            ✏️
+                        </a>
+                    </td>
+                    <td>
+                        <form asp-controller="StudentCourse" asp-route-studentId="@s.Id" asp-action="Delete" method="post">
+                            <button type="submit" class="btn btn-danger btn-sm">🗑️</button>
+                        </form>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="6">
+                        <ul>
+                            @foreach(var sc in s.StudentCourses!)
+                            {
+                                @if (sc.WithdrawDate == null)
                                 {
                                     <li> @sc.Course?.Name</li>  
                                 }
-                            </ul>
-                        </td>
-                    </tr>
-                }
+                            }
+                        </ul>
+                    </td>
+                </tr>
             }
         </tbody>
     </table>

@@ -15,7 +15,7 @@ namespace EFTest.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            return View(await studentRepository.GetAll());
+            return View(await studentRepository.GetAllEnrolled());
         }
 
         [HttpGet]
@@ -41,12 +41,14 @@ namespace EFTest.Controllers
             foreach (var c in viewModel.SelectedCourses)
             {
                 if (c.IsSelected)
-                    await studentCourseRepository.Create(new StudentCourse
-                    {
-                        StudentId = viewModel.StudentId,
-                        CourseId = c.Id,
-                        EnrollmentDate = DateTime.Now
-                    });
+                    await studentCourseRepository.Create(
+                        new StudentCourse
+                        {
+                            StudentId = viewModel.StudentId,
+                            CourseId = c.Id,
+                            EnrollmentDate = DateTime.Now
+                        }
+                    );
             }
 
             return RedirectToAction("Index");
@@ -57,9 +59,13 @@ namespace EFTest.Controllers
         {
             var enrolledCourses = await studentCourseRepository.GetByStudentId(studentId);
 
+            var student = await studentRepository.GetById(studentId);
+            if (student == null)
+                return RedirectToAction("Index");
+
             var viewModel = new UpdateStudentCourseViewModel
             {
-                SelectedStudent = await studentRepository.GetById(studentId)
+                SelectedStudent = student
             };
 
             viewModel.SetCourses(
@@ -68,7 +74,7 @@ namespace EFTest.Controllers
 
             foreach (var c in viewModel.SelectedCourses)
             {
-                if (enrolledCourses!.Any(sc => sc.CourseId == c.Id))
+                if (enrolledCourses!.Any(sc => sc.CourseId == c.Id && sc.WithdrawDate == null))
                     c.IsSelected = true;
             }
 
@@ -78,12 +84,48 @@ namespace EFTest.Controllers
         [HttpPost]
         public async Task<IActionResult> Update(UpdateStudentCourseViewModel viewModel)
         {
+            if (!ModelState.IsValid)
+                return View(viewModel);
+
+            foreach (var c in viewModel.SelectedCourses)
+            {
+                var activeEnrollment = await studentCourseRepository.GetActiveEnrollment(viewModel.SelectedStudent.Id, c.Id);
+
+                if (activeEnrollment != null && c.IsSelected)
+                    continue;
+                    
+                if (activeEnrollment != null && !c.IsSelected)
+                {
+                    activeEnrollment.WithdrawDate = DateTime.Now;
+                    await studentCourseRepository.Update(activeEnrollment);
+                    continue;
+                }
+
+                if (c.IsSelected)
+                {
+                    await studentCourseRepository.Create(
+                        new StudentCourse
+                        {
+                            StudentId = viewModel.SelectedStudent.Id,
+                            CourseId = c.Id,
+                            EnrollmentDate = DateTime.Now
+                        }
+                    ); 
+                }
+
+            }
+
             return RedirectToAction("Index");
         }
 
         [HttpPost]
         public async Task<IActionResult> Delete (int studentId)
         {
+            var student = await studentRepository.GetById(studentId);
+            if (student == null)
+                return NotFound();
+
+            await studentCourseRepository.DeleteEnrollments(studentId);
             return RedirectToAction("Index");
         }
     }

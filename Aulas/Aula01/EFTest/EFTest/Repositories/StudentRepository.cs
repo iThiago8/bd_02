@@ -38,6 +38,7 @@ namespace EFTest.Repositories
         {
             var enrolledStudentIds =
                 context.StudentCourse
+                .Where(sc => sc.WithdrawDate == null)
                 .Select(sc => sc.StudentId)
                 .Distinct();
 
@@ -46,8 +47,6 @@ namespace EFTest.Repositories
                 .Where(w => !enrolledStudentIds.Contains(w.Id))
                 .OrderBy(s => s.FirstMidName)
                 .ToListAsync();
-            
-
         }
 
         public async Task<Student?> GetById(int id)
@@ -75,5 +74,22 @@ namespace EFTest.Repositories
             return students;
         }
 
+        public async Task<List<Student>?> GetAllEnrolled()
+        {
+            var enrolledStudentIds =
+                context.StudentCourse
+                .Where(sc => sc.WithdrawDate == null)
+                .Select(sc => sc.StudentId)
+                .Distinct();
+
+            return await
+                context.Students
+                .Where(w => enrolledStudentIds.Contains(w.Id))
+                .Include(s => s.StudentCourses!)
+                    .ThenInclude(sc => sc.Course)
+                .OrderBy(s => s.FirstMidName)
+                .ToListAsync();
+            
+        }
     }
 }

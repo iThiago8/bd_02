@@ -12,6 +12,9 @@
         <form asp-action="Update">
             <div asp-validation-summary="ModelOnly"
                  class="text-danger"></div>
+
+            <input type="hidden" asp-for="SelectedStudent.Id" />
+
             <div class="form-group">
                 <label asp-for="SelectedStudent.FirstMidName"
                        class="control-label"></label>
