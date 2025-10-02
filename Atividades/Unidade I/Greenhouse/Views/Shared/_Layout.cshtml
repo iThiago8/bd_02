@@ -1,0 +1,117 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Greenhouse</title>
+    <script type="importmap"></script>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet"  href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Greenhouse.styles.css" asp-append-version="true" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-success shadow-sm mb-0">
+            <div class="container-fluid">
+                <a class="navbar-brand fw-bold d-flex align-items-center" asp-area="" asp-controller="Home" asp-action="Index">
+                    <i class="bi bi-flower1 me-2"></i>
+                    Greenhouse
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse"
+                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">
+                                <i class="bi bi-house-door me-1"></i>Início
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Plant" asp-action="Index">
+                                <i class="bi bi-list-ul me-1"></i>Plantas
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">
+                                <i class="bi bi-shield-check me-1"></i>Privacidade
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link btn btn-dark btn-sm px-3" asp-area="" asp-controller="Plant" asp-action="Create">
+                                <i class="bi bi-plus-circle me-1"></i>Nova Planta
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <style>
+        .navbar {
+            padding: 0.75rem 0;
+        }
+
+        .navbar-brand {
+            font-size: 1.5rem;
+            transition: transform 0.2s;
+        }
+
+            .navbar-brand:hover {
+                transform: scale(1.05);
+            }
+
+        .nav-link {
+            color: rgba(255, 255, 255, 0.9) !important;
+            transition: all 0.2s;
+            border-radius: 5px;
+            padding: 0.5rem 1rem !important;
+            margin: 0 0.25rem;
+        }
+
+            .nav-link:hover {
+                color: white !important;
+                background-color: rgba(255, 255, 255, 0.1);
+            }
+
+            .nav-link.active {
+                color: white !important;
+                background-color: rgba(255, 255, 255, 0.15);
+            }
+
+        .navbar-nav .btn-light {
+            background: white;
+            color: #198754;
+            font-weight: 600;
+            border: none;
+            transition: all 0.2s;
+        }
+
+        .navbar-nav .btn-light:hover {
+            background: rgba(255, 255, 255, 0.95);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2025 - Greenhouse - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
